@@ -29,5 +29,16 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "scripts",
+    "README.md",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veilmesh/veil-guard-node.git"
   }
 }

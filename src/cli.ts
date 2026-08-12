@@ -99,3 +99,52 @@ export async function sign(options: SignOptions): Promise<string> {
     }
   }
 }
+
+export interface RuntimeOptions {
+  /** Where to write veil-guard-sw.js and veil-guard-loader.js. */
+  out: string;
+  trustRoot: string;
+  binPath?: string;
+}
+
+/**
+ * Emit the Tier 1 Service Worker and page loader.
+ *
+ * Point `out` at the build output directory, not `public/`. The worker only has to
+ * end up at the site root, and writing it there directly after the build means it
+ * does not have to survive a copy step — which also makes it visible to `sign`, so
+ * the loader picks up an integrity attribute like any other script.
+ */
+export async function runtime(options: RuntimeOptions): Promise<string> {
+  const { stdout } = await execFileAsync(options.binPath || 'veil-guard', [
+    'runtime',
+    '--trust-root',
+    options.trustRoot,
+    '--out',
+    options.out,
+  ]);
+  return stdout;
+}
+
+export interface VerifyOptions {
+  dist: string;
+  trustRoot: string;
+  pinnedVersion?: number;
+  binPath?: string;
+}
+
+/**
+ * Re-check a signed build against its manifest.
+ *
+ * Worth running even immediately after `sign`: it is what catches a build step that
+ * writes into the output directory *after* signing, which is otherwise invisible
+ * until a browser refuses the page.
+ */
+export async function verify(options: VerifyOptions): Promise<string> {
+  const args = ['verify', '--dist', options.dist, '--trust-root', options.trustRoot];
+  if (options.pinnedVersion !== undefined) {
+    args.push('--pinned-version', String(options.pinnedVersion));
+  }
+  const { stdout } = await execFileAsync(options.binPath || 'veil-guard', args);
+  return stdout;
+}
