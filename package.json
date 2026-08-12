@@ -1,7 +1,7 @@
 {
   "name": "@veilmesh/veil-guard",
   "version": "0.1.0",
-  "description": "Node.js wrapper for the veil-guard CLI",
+  "description": "Sign web builds with veil-guard: Node.js wrapper and Vite plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -9,7 +9,12 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "default": "./dist/vite.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsc",
@@ -22,16 +27,20 @@
     "attestation",
     "sri",
     "csp",
-    "slsa"
+    "slsa",
+    "vite",
+    "vite-plugin"
   ],
   "author": "VeilMesh Team <dev@veilmesh.com>",
   "license": "MIT OR Apache-2.0",
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
   },
   "files": [
     "dist",
+    "!dist/test",
     "scripts",
     "README.md",
     "LICENSE-MIT",
@@ -40,5 +49,13 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/veilmesh/veil-guard-node.git"
+  },
+  "peerDependencies": {
+    "vite": "^4.0.0 || ^5.0.0 || ^6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
   }
 }
