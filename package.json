@@ -1,6 +1,6 @@
 {
   "name": "@veilmesh/veil-guard",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Sign web builds with veil-guard: Node.js wrapper and Vite plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
