@@ -1,0 +1,33 @@
+{
+  "name": "@veilmesh/veil-guard",
+  "version": "0.1.0",
+  "description": "Node.js wrapper for the veil-guard CLI",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/test/*.test.js",
+    "postinstall": "node scripts/postinstall.cjs"
+  },
+  "keywords": [
+    "security",
+    "integrity",
+    "attestation",
+    "sri",
+    "csp",
+    "slsa"
+  ],
+  "author": "VeilMesh Team <dev@veilmesh.com>",
+  "license": "MIT OR Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
