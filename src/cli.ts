@@ -9,6 +9,23 @@ import type { KmsConfig } from './kms.js';
 
 const execFileAsync = promisify(execFile);
 
+async function execCli(bin: string, args: string[]): Promise<{ stdout: string; stderr: string }> {
+  try {
+    return await execFileAsync(bin, args);
+  } catch (err: any) {
+    if (err?.code === 'ENOENT') {
+      throw new Error(
+        `[veil-guard] Could not find the "${bin}" CLI binary in your PATH.\n` +
+        `To install the veil-guard CLI:\n` +
+        `  • Via Cargo:   cargo install veil-guard --features audit\n` +
+        `  • Prebuilt:    https://github.com/veilmesh/veil-guard/releases\n` +
+        `  • Or provide:  { binPath: "/path/to/veil-guard" } in plugin / sign options.`
+      );
+    }
+    throw err;
+  }
+}
+
 export interface SignOptions {
   dist: string;
   trustRoot: string;
@@ -91,7 +108,7 @@ export async function sign(options: SignOptions): Promise<string> {
   }
 
   try {
-    const { stdout } = await execFileAsync(bin, args);
+    const { stdout } = await execCli(bin, args);
     return stdout;
   } finally {
     if (tmpProvFile) {
@@ -116,7 +133,7 @@ export interface RuntimeOptions {
  * the loader picks up an integrity attribute like any other script.
  */
 export async function runtime(options: RuntimeOptions): Promise<string> {
-  const { stdout } = await execFileAsync(options.binPath || 'veil-guard', [
+  const { stdout } = await execCli(options.binPath || 'veil-guard', [
     'runtime',
     '--trust-root',
     options.trustRoot,
@@ -145,6 +162,6 @@ export async function verify(options: VerifyOptions): Promise<string> {
   if (options.pinnedVersion !== undefined) {
     args.push('--pinned-version', String(options.pinnedVersion));
   }
-  const { stdout } = await execFileAsync(options.binPath || 'veil-guard', args);
+  const { stdout } = await execCli(options.binPath || 'veil-guard', args);
   return stdout;
 }
