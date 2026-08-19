@@ -1,5 +1,8 @@
 # @veilmesh/veil-guard
 
+[![npm](https://img.shields.io/npm/v/@veilmesh/veil-guard?color=crimson&logo=npm)](https://www.npmjs.com/package/@veilmesh/veil-guard)
+[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-green)](LICENSE-MIT)
+
 Node bindings for the [`veil-guard`](https://github.com/veilmesh/veil-guard) CLI, and
 the Vite plugin built on them.
 
